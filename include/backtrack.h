@@ -9,6 +9,7 @@
 #include "candidate_set.h"
 #include "common.h"
 #include "graph.h"
+#include "daf.h"
 
 class Backtrack {
  public:
