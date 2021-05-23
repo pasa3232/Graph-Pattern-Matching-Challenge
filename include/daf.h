@@ -27,11 +27,11 @@ class DAF {
   std::vector<int> qdd;         /* query dag degree */
 
   struct vcs {
-      Vertex id;
-      std::vector<Vertex> cs;
-      bool operator<(const vcs &a) const {
-        return cs.size() == a.cs.size() ? id > a.id : cs.size() > a.cs.size();
-      }
+    Vertex id;
+    std::vector<Vertex> cs;
+    bool operator<(const vcs &a) const {
+      return cs.size() == a.cs.size() ? id > a.id : cs.size() > a.cs.size();
+    }
   };
   std::priority_queue<vcs> children;
 
