@@ -38,7 +38,6 @@ inline void Backtrack::printMatch(std::vector<Vertex> &M) {
     std::cout << "\n";
     
     print_cnt += 1;
-    if(CHECK_MODE) exit(0);
     if(print_cnt >= LIMIT) exit(0);
 }
 
