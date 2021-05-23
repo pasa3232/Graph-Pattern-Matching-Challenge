@@ -74,7 +74,7 @@ void parse(int argc, char* argv[]) {
 }
 
 void error(string msg){
-  cout<<msg;
+  cout<<msg<<"\n";
   exit(0);
 }
 

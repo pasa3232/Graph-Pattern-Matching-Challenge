@@ -22,7 +22,7 @@ class DAF {
   const Graph *query;           /* pointer of query graph */
   const CandidateSet *cs;       /* pointer of CandidateSet */
 
-  std::vector<bool> check;      /* Check visited while searching */
+  std::vector<int> check;       /* Check visited while searching */
   std::vector<bool> used;       /* Check used vertex of data */
   std::vector<int> qdd;         /* query dag degree */
 
