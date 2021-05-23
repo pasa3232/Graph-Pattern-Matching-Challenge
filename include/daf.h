@@ -22,16 +22,16 @@ class DAF {
   const Graph *query;           /* pointer of query graph */
   const CandidateSet *cs;       /* pointer of CandidateSet */
 
-  std::vector<bool> check;      /* Check visited while searching */
+  std::vector<int> check;       /* Check visited while searching */
   std::vector<bool> used;       /* Check used vertex of data */
   std::vector<int> qdd;         /* query dag degree */
 
   struct vcs {
-      Vertex id;
-      std::vector<Vertex> cs;
-      bool operator<(const vcs &a) const {
-        return cs.size() == a.cs.size() ? id > a.id : cs.size() > a.cs.size();
-      }
+    Vertex id;
+    std::vector<Vertex> cs;
+    bool operator<(const vcs &a) const {
+      return cs.size() == a.cs.size() ? id > a.id : cs.size() > a.cs.size();
+    }
   };
   std::priority_queue<vcs> children;
 

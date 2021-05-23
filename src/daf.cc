@@ -24,12 +24,12 @@ void DAF::PrintAllMatches(const Graph &data, const Graph &query,
   }
   
   // find query dag and set degree
-  fill(check.begin(), check.end(), false);
+  fill(check.begin(), check.end(), 0);
   fill(qdd.begin(), qdd.end(), 0);
   dag(root);
 
   // candidate size order backtracking
-  fill(check.begin(), check.end(), false);
+  fill(check.begin(), check.end(), 0);
   fill(used.begin(), used.end(), false);
   for(size_t i=0; i<cs.GetCandidateSize(root); i++){
     M[root] = cs.GetCandidate(root, i);
@@ -40,23 +40,35 @@ void DAF::PrintAllMatches(const Graph &data, const Graph &query,
 }
 
 void DAF::dag(Vertex id) {
-  check[id] = true;
-  
-  size_t st = query->GetNeighborStartOffset(id);
-  size_t en = query->GetNeighborEndOffset(id);
+  /* check
+   *  0: not pushed
+   *  1: in que
+   *  2: poped
+   */
+  check[id] = 1;
+  queue<Vertex> q;
+  q.push(id);
+  while(!q.empty()){
+    id = q.front();
+    q.pop();
+    check[id] = 2;
 
-  for(size_t i = st; i < en; i++) {
-    Vertex u = query->GetNeighbor(i);
-    if(check[u]) qdd[id]++;
-  }
-  for(size_t i = st; i < en; i++) {
-    Vertex u = query->GetNeighbor(i);
-    if(!check[u]) dag(u);
+    size_t st = query->GetNeighborStartOffset(id);
+    size_t en = query->GetNeighborEndOffset(id);
+
+    for(size_t i = st; i < en; i++) {
+      Vertex u = query->GetNeighbor(i);
+      if(check[u] == 2) qdd[id]++;
+      if(check[u] == 0) {
+        q.push(u);
+        check[u] = 1;
+      }
+    }
   }
 }
 
 void DAF::candidate_size_order(Vertex id, size_t matched) {
-  check[id] = true;
+  check[id] = 1;
   if(matched == query->GetNumVertices()){
     Backtrack::printMatch(M);
     return;
@@ -110,5 +122,5 @@ void DAF::candidate_size_order(Vertex id, size_t matched) {
     Vertex u = query->GetNeighbor(i);
     qdd[u]++;
   }
-  check[id] = false;
+  check[id] = 0;
 }

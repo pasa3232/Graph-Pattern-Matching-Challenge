@@ -74,7 +74,7 @@ void parse(int argc, char* argv[]) {
 }
 
 void error(string msg){
-  cout<<msg;
+  cout<<msg<<"\n";
   exit(0);
 }
 
@@ -98,7 +98,7 @@ size_t check(const Graph &data, const Graph &query, const CandidateSet &cs){
           printf("a ");
           for(size_t k = 0; k < n; k++) printf("%d ", v[k]);
           printf("\n");
-          exit(0);
+          cnt--;
         }
     }
   }
