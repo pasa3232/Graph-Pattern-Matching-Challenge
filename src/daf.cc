@@ -58,7 +58,7 @@ void DAF::dag(Vertex id) {
 void DAF::candidate_size_order(Vertex id, size_t matched) {
   check[id] = true;
   if(matched == query->GetNumVertices()){
-    printMach();
+    Backtrack::printMatch(M);
     return;
   }
 

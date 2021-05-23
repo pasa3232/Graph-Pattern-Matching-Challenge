@@ -4,6 +4,7 @@
 #include "candidate_set.h"
 #include "common.h"
 #include "graph.h"
+#include "backtrack.h"
 
 #include <queue>
 
@@ -16,9 +17,6 @@ class DAF {
                        const CandidateSet &cs);
 
  private:
-  const int LIMIT = 100000;     /* Maximum number of match prints */
-  int print_cnt = 0;            /* Number of match prints */
-
   std::vector<Vertex> M;        /* Match */
   const Graph *data;            /* pointer of data graph */
   const Graph *query;           /* pointer of query graph */
@@ -37,24 +35,8 @@ class DAF {
   };
   std::priority_queue<vcs> children;
 
-  inline void printMach();
   void dag(Vertex id);
   void candidate_size_order(Vertex id, size_t matched);
 };
-
-/**
- * @brief Print one match according to the format & check limit
- *
- * @return void
- */
-inline void DAF::printMach() {
-    std::cout << "a ";
-    for(auto& e : M)
-        std::cout << e << " ";
-    std::cout << "\n";
-    
-    print_cnt += 1;
-    if(print_cnt >= LIMIT) exit(0);
-}
 
 #endif  // DAF_H_

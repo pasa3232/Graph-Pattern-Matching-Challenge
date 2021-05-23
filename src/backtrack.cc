@@ -8,6 +8,8 @@
 Backtrack::Backtrack() {}
 Backtrack::~Backtrack() {}
 
+int Backtrack::print_cnt = 0;
+
 void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
                                 const CandidateSet &cs) {
   DAF daf;
