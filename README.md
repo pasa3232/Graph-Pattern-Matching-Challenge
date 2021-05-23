@@ -8,6 +8,17 @@ cmake ..
 make
 ./main/program <data graph file> <query graph file> <candidate set file>
 ```
+### check option -c
+```
+./main/program <data graph file> <query graph file> <candidate set file> -c
+```
+Result is saved in result.txt file and the checker log is printed to stdout.
+
+### Specify the output file.
+```
+./main/program <data graph file> <query graph file> <candidate set file> <output file>
+```
+
 ### executable program that outputs a candidate set
 ```
 ./executable/filter_vertices <data graph file> <query graph file>
