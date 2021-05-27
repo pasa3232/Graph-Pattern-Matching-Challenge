@@ -10,6 +10,10 @@
 #include "common.h"
 #include "graph.h"
 #include "daf.h"
+#include "elpsm.h"
+
+#include <algorithm>
+#include <assert.h>
 
 class Backtrack {
  public:
@@ -38,6 +42,7 @@ inline void Backtrack::printMatch(std::vector<Vertex> &M) {
     std::cout << "\n";
     
     print_cnt += 1;
+    if(print_cnt % 1000 == 0) std::cerr << print_cnt << std::endl;
     if(print_cnt >= LIMIT) exit(0);
 }
 

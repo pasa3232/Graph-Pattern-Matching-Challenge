@@ -41,18 +41,19 @@ int main(int argc, char* argv[]) {
 
   if(CHECK_MODE) {
     pid_t pid;
-    time_t start = clock(), end;
+    time_t start = time(NULL), end;
     if((pid = fork()) == 0){
       if(!freopen("../result.txt", "w", stdout)) return 1;
       backtrack.PrintAllMatches(data, query, candidate_set);
       return EXIT_SUCCESS;
     }
     wait(NULL);
-    end = clock();
+    end = time(NULL);
     cout<<"--------------------check result--------------------"<<"\n";
-    cout<<"running time: " << (double )end - start << "(ms)" << "\n";
+    cout<<"running time: " << (end - start) << "(s)" << "\n";
     if(!freopen("../result.txt", "r", stdin)) return 1;
-    cout<<"found: "<<check(data, query, candidate_set)<<"\n";
+    size_t found = check(data, query, candidate_set);
+    cout<<"found: "<<found<<"\n";
     cout<<"Check succeed."<<"\n";
     return EXIT_SUCCESS;
   }
@@ -79,28 +80,28 @@ void error(string msg){
 }
 
 size_t check(const Graph &data, const Graph &query, const CandidateSet &cs){
-  size_t n, cnt=0;
+  size_t n, cnt=0, fail=0;
   char tmp;
   if(scanf("%c %ld", &tmp, &n)!=2 || tmp != 't') error("invalid output");
   while(scanf(" %c", &tmp)!=EOF) {
-    cnt++;
+    bool isok = true;
     if(tmp!='a') error("invalid output");
     vector<Vertex> v = vector<Vertex>(n);
-    for(size_t i = 0; i < n; i++)
-      if(scanf("%d", &v[i])!=1) error("invalid output");
-    
+    for(size_t i = 0; i < n; i++) if(scanf("%d", &v[i])!=1) isok = false;
     for(size_t i = 0; i < n; i++) {
       size_t st = query.GetNeighborStartOffset(i);
       size_t en = query.GetNeighborEndOffset(i);
       for(size_t j = st; j < en; j++)
-        if(!data.IsNeighbor(v[i], v[query.GetNeighbor(j)])) {
-          printf("Check failed.\n");
-          printf("a ");
-          for(size_t k = 0; k < n; k++) printf("%d ", v[k]);
-          printf("\n");
-          cnt--;
+        if(!data.IsNeighbor(v[i], v[query.GetNeighbor(j)])) 
+        { isok = false;
+            //cerr << i << " " << query.GetNeighbor(j) << "\n";
+            break;
         }
     }
+     //cerr << isok << "\n";
+    if(isok) cnt += 1;
+    else fail += 1;
   }
+  cout << "failed " << fail << " times" << "\n";
   return cnt;
 }
