@@ -13,6 +13,18 @@ make
 ./main/program <data graph file> <query graph file> <candidate set file> -c
 ```
 Result is saved in result.txt file and the checker log is printed to stdout.
+### backtrack mode option -0 -1 -2 -3
+```
+./main/program <data graph file> <query graph file> <candidate set file> -0
+./main/program <data graph file> <query graph file> <candidate set file> -1
+./main/program <data graph file> <query graph file> <candidate set file> -2
+./main/program <data graph file> <query graph file> <candidate set file> -3
+0 : ignore dag (default)
+1 : DAF
+2 : ELPSM
+3 : optimize_da
+```
+Can use with -c option
 
 ### Specify the output file.
 ```
