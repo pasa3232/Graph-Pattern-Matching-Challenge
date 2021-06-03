@@ -17,6 +17,15 @@ using namespace std;
 
 static bool CHECK_MODE = false;
 
+/*
+ * Default 0 
+ * 0 : ignore dag
+ * 1 : DAF
+ * 2 : ELPSM
+ * 3 : optimize_da
+ */
+static int MODE = 0;
+
 void parse(int argc, char* argv[]);
 size_t check(const Graph &data, const Graph &query, const CandidateSet &cs);
 
@@ -44,7 +53,7 @@ int main(int argc, char* argv[]) {
     time_t start = time(NULL), end;
     if((pid = fork()) == 0){
       if(!freopen("../result.txt", "w", stdout)) return 1;
-      backtrack.PrintAllMatches(data, query, candidate_set);
+      backtrack.PrintAllMatches(data, query, candidate_set, MODE);
       return EXIT_SUCCESS;
     }
     wait(NULL);
@@ -58,7 +67,7 @@ int main(int argc, char* argv[]) {
     return EXIT_SUCCESS;
   }
   else {
-    backtrack.PrintAllMatches(data, query, candidate_set);
+    backtrack.PrintAllMatches(data, query, candidate_set, MODE);
     return EXIT_SUCCESS;
   }
 }
@@ -70,6 +79,18 @@ void parse(int argc, char* argv[]) {
   for(int i = 4; i < argc; i++){
     if(strlen(argv[i]) == 2 && argv[i][0] == '-' && argv[i][1] == 'c'){   /* CHECK-MODE */
       CHECK_MODE = true;
+    }
+    if(strlen(argv[i]) == 2 && argv[i][0] == '-' && argv[i][1] == '0'){
+      MODE = 0;
+    }
+    if(strlen(argv[i]) == 2 && argv[i][0] == '-' && argv[i][1] == '1'){
+      MODE = 1;
+    }
+    if(strlen(argv[i]) == 2 && argv[i][0] == '-' && argv[i][1] == '2'){
+      MODE = 2;
+    }
+    if(strlen(argv[i]) == 2 && argv[i][0] == '-' && argv[i][1] == '3'){
+      MODE = 3;
     }
   }
 }
