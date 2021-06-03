@@ -11,6 +11,8 @@
 #include "graph.h"
 #include "daf.h"
 #include "elpsm.h"
+#include "ignore_dag.h"
+#include "optimize_da.h"
 
 #include <algorithm>
 #include <assert.h>
@@ -24,7 +26,7 @@ class Backtrack {
 
   inline static void printMatch(std::vector<Vertex> &M);
   void PrintAllMatches(const Graph &data, const Graph &query,
-                       const CandidateSet &cs);
+                       const CandidateSet &cs, int MODE);
 
 private:
   static int print_cnt;          /* Number of match prints */

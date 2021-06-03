@@ -20,4 +20,5 @@
 using Vertex = int32_t;
 using Label = int32_t;
 
+
 #endif  // COMMON_H_
