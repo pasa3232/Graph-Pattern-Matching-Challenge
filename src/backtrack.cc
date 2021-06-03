@@ -49,5 +49,4 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     opda.DAG_preprocess();
     opda.perf_ELPSM(0);
   }
-
 }
