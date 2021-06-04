@@ -25,10 +25,11 @@ class DAF {
   std::vector<int> check;       /* Check visited while searching */
   std::vector<bool> used;       /* Check used vertex of data */
   std::vector<int> qdd;         /* query dag degree */
-  std::vector<std::vector<Vertex> > parents;
-  std::vector< std::vector<Vertex> > C_m; /* candidate */
+  std::vector<std::vector<Vertex> > children;
+  std::vector<std::set<Vertex> > C_m; /* candidate */
 
   void dag(Vertex id);
+  void initialize();
   void candidate_size_order(Vertex id, size_t matched);
 };
 

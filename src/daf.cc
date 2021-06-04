@@ -12,12 +12,7 @@ void DAF::PrintAllMatches(const Graph &data, const Graph &query,
   size_t num_qv = query.GetNumVertices();
   
   cout << "t " << num_qv << "\n";
-  M.resize(num_qv);
-  qdd.resize(num_qv);
-  check.resize(num_qv);
-  parents.resize(num_qv);
-  C_m.resize(num_qv);
-  used.resize(data.GetNumVertices());
+  initialize();
 
   // find root
   Vertex root = 0;
@@ -29,19 +24,35 @@ void DAF::PrintAllMatches(const Graph &data, const Graph &query,
   // find query dag and set degree
   fill(check.begin(), check.end(), 0);
   fill(qdd.begin(), qdd.end(), 0);
-  for(size_t i=0; i<num_qv; i++) parents[i].clear();
+  for(size_t i=0; i<num_qv; i++) children[i].clear();
   dag(root);
 
   // candidate size order backtracking
   fill(used.begin(), used.end(), false);
   fill(check.begin(), check.end(), 0);
-  for(size_t i=0; i<num_qv; i++) C_m[i].clear();
   for(size_t i=0; i<cs.GetCandidateSize(root); i++){
     Vertex v = cs.GetCandidate(root, i);
     M[root] = v;
     used[v] = true;
     candidate_size_order(root, 1);
     used[v] = false;
+  }
+}
+
+void DAF::initialize() {
+  size_t num_qv = query->GetNumVertices();
+  M.resize(num_qv);
+  qdd.resize(num_qv);
+  check.resize(num_qv);
+  children.resize(num_qv);
+  C_m.resize(num_qv);
+  used.resize(data->GetNumVertices());
+  for(size_t i = 0; i < num_qv; i++) {
+    C_m[i].clear();
+    for(size_t j = 0; j < cs->GetCandidateSize(i); j++) {
+      Vertex u = cs->GetCandidate(i, j);
+      C_m[i].insert(u);
+    }
   }
 }
 
@@ -66,7 +77,7 @@ void DAF::dag(Vertex id) {
       Vertex u = query->GetNeighbor(i);
       if(check[u] == 2){
         qdd[id]++;
-        parents[id].push_back(u);
+        children[u].push_back(id);
       }
       if(check[u] == 0) {
         q.push(u);
@@ -85,25 +96,36 @@ void DAF::candidate_size_order(Vertex id, size_t matched) {
 
   size_t st = query->GetNeighborStartOffset(id);
   size_t en = query->GetNeighborEndOffset(id);
+  vector<set<Vertex> > save_del(query->GetNumVertices());
+  set<Vertex>::iterator it;
 
   for(size_t i = st; i < en; i++) {
     Vertex u = query->GetNeighbor(i);
-    if(--qdd[u]) continue;
+    qdd[u]--;
+    if(qdd[u]<0) continue;
     
-    // find valid candidate set of u
-    C_m[u].clear();
-    for(size_t j = 0; j < cs->GetCandidateSize(u); j++) {
-      Vertex v = cs->GetCandidate(u, j);
-      // check if v is already used
-      if(used[v]) continue;
-
+    for(it = C_m[u].begin(); it != C_m[u].end(); ++it) {
+      Vertex v = *it;
       // check if v is connected with parents
-      bool flag = true;
-      for(Vertex p : parents[u])
-        if(!data->IsNeighbor(v, M[p])) flag = false;
-      
-      if(flag) C_m[u].push_back(v);
+      if(!data->IsNeighbor(v, M[id]))
+        save_del[u].insert(v);
     }
+    set<Vertex> result;
+    set_difference(C_m[u].begin(), C_m[u].end(), save_del[u].begin(), save_del[u].end(), std::inserter(result, result.end()));
+    C_m[u] = result;
+  }
+  for(size_t i = 0; i < children[id].size(); i++) {
+    Vertex u = children[id][i];
+    if(C_m[u].find(M[id]) != C_m[u].end()){
+      save_del[u].insert(M[id]);
+    }
+  }
+  for(size_t i = 0; i < query->GetNumVertices(); i++) {
+      if(save_del[i].size()) {
+        set<Vertex> result;
+        set_difference(C_m[i].begin(), C_m[i].end(), save_del[i].begin(), save_del[i].end(), std::inserter(result, result.end()));
+        C_m[i] = result;
+      }
   }
   
   Vertex u = -1;
@@ -118,8 +140,8 @@ void DAF::candidate_size_order(Vertex id, size_t matched) {
   }
 
   if(u != -1)
-    for(size_t i = 0; i < C_m[u].size(); i++){
-        Vertex v = C_m[u][i];
+    for(it = C_m[u].begin(); it != C_m[u].end(); ++it){
+        Vertex v = *it;
         if(used[v]) continue;
         M[u] = v;
         used[v] = true;
@@ -127,6 +149,13 @@ void DAF::candidate_size_order(Vertex id, size_t matched) {
         used[v] = false;
     }
 
+  for(size_t i = 0; i < query->GetNumVertices(); i++) {
+      if(save_del[i].size()) {
+        set<Vertex> result;
+        set_union(C_m[i].begin(), C_m[i].end(), save_del[i].begin(), save_del[i].end(), std::inserter(result, result.end()));
+        C_m[i] = result;
+      }
+  }
   for(size_t i = st; i < en; i++) {
     u = query->GetNeighbor(i);
     qdd[u]++;
