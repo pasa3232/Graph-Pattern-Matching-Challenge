@@ -10,19 +10,10 @@ def score():
 
 def test(MODE, data):
     print(f"<{data}>")
-    for num in range(1, 9, 2):
-        print(f"{data}_n{num}: ", end="")
-        p = subprocess.Popen([f"./build/main/program", f"data/{data}.igraph", f"query/{data}_n{num}.igraph", f"candidate_set/{data}_n{num}.cs", "result.txt", f"-{MODE}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        try:
-            out, err = p.communicate(timeout=60)
-        except subprocess.TimeoutExpired:
-            p.kill()
-            print("(time out)", end="")
-        print(score())
-
-    for num in range(1, 9, 2):
-        print(f"{data}_s{num}: ", end="")
-        p = subprocess.Popen([f"./build/main/program", f"data/{data}.igraph", f"query/{data}_s{num}.igraph", f"candidate_set/{data}_s{num}.cs", "result.txt", f"-{MODE}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    cases = ["n1", "n3", "n5", "n8", "s1", "s3", "s5", "s8"]
+    for case in cases:
+        print(f"{data}_{case}: ", end="")
+        p = subprocess.Popen([f"./build/main/program", f"data/{data}.igraph", f"query/{data}_{case}.igraph", f"candidate_set/{data}_{case}.cs", "result.txt", f"-{MODE}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
             out, err = p.communicate(timeout=60)
         except subprocess.TimeoutExpired:
