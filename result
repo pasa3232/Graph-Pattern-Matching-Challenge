@@ -1,0 +1,96 @@
+=================== ignore dag2 ===================
+<lcc_hprd>
+lcc_hprd_n1: TIME: 0.003  (s)  SCORE: 96
+lcc_hprd_n3: TIME: 1.037  (s)  SCORE: 100000
+lcc_hprd_n5: TIME: 0.579  (s)  SCORE: 32832
+lcc_hprd_n8: TIME: 2.445  (s)  SCORE: 100000
+lcc_hprd_s1: TIME: 0.016  (s)  SCORE: 504
+lcc_hprd_s3: TIME: 1.181  (s)  SCORE: 100000
+lcc_hprd_s5: TIME: 1.563  (s)  SCORE: 100000
+lcc_hprd_s8: TIME: 2.098  (s)  SCORE: 100000
+
+<lcc_human>
+lcc_human_n1: TIME: 0.148  (s)  SCORE: 100000
+lcc_human_n3: TIME: 0.225  (s)  SCORE: 100000
+lcc_human_n5: TIME: 0.358  (s)  SCORE: 100000
+lcc_human_n8: TIME: 0.475  (s)  SCORE: 100000
+lcc_human_s1: TIME: 0.12   (s)  SCORE: 100000
+lcc_human_s3: TIME: 0.292  (s)  SCORE: 100000
+lcc_human_s5: TIME: 0.364  (s)  SCORE: 100000
+lcc_human_s8: TIME: 0.471  (s)  SCORE: 100000
+
+<lcc_yeast>
+lcc_yeast_n1: TIME: 0.594  (s)  SCORE: 100000
+lcc_yeast_n3: TIME: 1.426  (s)  SCORE: 100000
+lcc_yeast_n5: TIME: 1.899  (s)  SCORE: 100000
+lcc_yeast_n8: TIME: 2.668  (s)  SCORE: 100000
+lcc_yeast_s1: TIME: 0.63   (s)  SCORE: 100000
+lcc_yeast_s3: TIME: (time out)  SCORE: 0
+lcc_yeast_s5: TIME: 1.53   (s)  SCORE: 100000
+lcc_yeast_s8: TIME: (time out)  SCORE: 0
+
+
+
+=================== ignore dag ====================
+<lcc_hprd>
+lcc_hprd_n1: TIME: 0.004  (s)  SCORE: 96
+lcc_hprd_n3: TIME: 2.05   (s)  SCORE: 100000
+lcc_hprd_n5: TIME: 1.005  (s)  SCORE: 32832
+lcc_hprd_n8: TIME: 4.05   (s)  SCORE: 100000
+lcc_hprd_s1: TIME: 0.025  (s)  SCORE: 504
+lcc_hprd_s3: TIME: 2.043  (s)  SCORE: 100000
+lcc_hprd_s5: TIME: 3.07   (s)  SCORE: 100000
+lcc_hprd_s8: TIME: 3.935  (s)  SCORE: 100000
+
+<lcc_human>
+lcc_human_n1: TIME: 0.278  (s)  SCORE: 100000
+lcc_human_n3: TIME: 0.453  (s)  SCORE: 100000
+lcc_human_n5: TIME: 0.69   (s)  SCORE: 100000
+lcc_human_n8: TIME: 0.916  (s)  SCORE: 100000
+lcc_human_s1: TIME: 0.245  (s)  SCORE: 100000
+lcc_human_s3: TIME: 0.554  (s)  SCORE: 100000
+lcc_human_s5: TIME: 0.692  (s)  SCORE: 100000
+lcc_human_s8: TIME: 0.91   (s)  SCORE: 100000
+
+<lcc_yeast>
+lcc_yeast_n1: TIME: 1.039  (s)  SCORE: 100000
+lcc_yeast_n3: TIME: 2.044  (s)  SCORE: 100000
+lcc_yeast_n5: TIME: 3.044  (s)  SCORE: 100000
+lcc_yeast_n8: TIME: 4.035  (s)  SCORE: 100000
+lcc_yeast_s1: TIME: 1.209  (s)  SCORE: 100000
+lcc_yeast_s3: TIME: (time out)  SCORE: 0
+lcc_yeast_s5: TIME: 3.05   (s)  SCORE: 100000
+lcc_yeast_s8: TIME: (time out)  SCORE: 0
+
+
+======================= DAF =======================
+<lcc_hprd>
+lcc_hprd_n1: TIME: 0.004  (s)  SCORE: 96
+lcc_hprd_n3: TIME: 1.985  (s)  SCORE: 100000
+lcc_hprd_n5: TIME: 0.989  (s)  SCORE: 32832
+lcc_hprd_n8: TIME: 3.939  (s)  SCORE: 100000
+lcc_hprd_s1: TIME: 0.027  (s)  SCORE: 504
+lcc_hprd_s3: TIME: 2.158  (s)  SCORE: 100000
+lcc_hprd_s5: TIME: 3.063  (s)  SCORE: 100000
+lcc_hprd_s8: TIME: 3.902  (s)  SCORE: 100000
+
+<lcc_human>
+lcc_human_n1: TIME: 0.29   (s)  SCORE: 100000
+lcc_human_n3: TIME: 0.491  (s)  SCORE: 100000
+lcc_human_n5: TIME: (time out)  SCORE: 0
+lcc_human_n8: TIME: 0.97   (s)  SCORE: 100000
+lcc_human_s1: TIME: 0.343  (s)  SCORE: 100000
+lcc_human_s3: TIME: 0.822  (s)  SCORE: 100000
+lcc_human_s5: TIME: (time out)  SCORE: 0
+lcc_human_s8: TIME: (time out)  SCORE: 0
+
+<lcc_yeast>
+lcc_yeast_n1: TIME: 1.58   (s)  SCORE: 100000
+lcc_yeast_n3: TIME: (time out)  SCORE: 0
+lcc_yeast_n5: TIME: 5.097  (s)  SCORE: 100000
+lcc_yeast_n8: TIME: 7.307  (s)  SCORE: 100000
+lcc_yeast_s1: TIME: 3.243  (s)  SCORE: 100000
+lcc_yeast_s3: TIME: (time out)  SCORE: 0
+lcc_yeast_s5: TIME: (time out)  SCORE: 0
+lcc_yeast_s8: TIME: (time out)  SCORE: 0
+
