@@ -13,18 +13,19 @@ def test(MODE, data):
     cases = ["n1", "n3", "n5", "n8", "s1", "s3", "s5", "s8"]
     for case in cases:
         print(f"{data}_{case}: ", end="")
-        p = subprocess.Popen([f"./build/main/program", f"data/{data}.igraph", f"query/{data}_{case}.igraph", f"candidate_set/{data}_{case}.cs", "result.txt", f"-{MODE}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen([f"./build/main/program", f"data/{data}.igraph", f"query/{data}_{case}.igraph", f"candidate_set/{data}_{case}.cs", "-c", f"-{MODE}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
             out, err = p.communicate(timeout=60)
+            running_time = int(float(str(out).split("running time (Millisec): ")[1].split("\\n")[0]))
+            print(f"TIME: {running_time / 1000:<7}(s)  ", end = "")
         except subprocess.TimeoutExpired:
             p.kill()
-            print("(time out)", end="")
-        print(score())
+            print(f"TIME: {'(time out)':<10}  ", end = "")
+        print(f"SCORE: {score()}")
     print()
 
     
-
-print("\n================= TEST ignore dag =================")
+print("\n=================== ignore dag ====================")
 test(0, "lcc_hprd")
 test(0, "lcc_human")
 test(0, "lcc_yeast")
@@ -46,4 +47,11 @@ print("\n=================== optimize-da ===================")
 test(3, "lcc_hprd")
 test(3, "lcc_human")
 test(3, "lcc_yeast")
+print()
+
+
+print("\n=================== ignore dag2 ===================")
+test(4, "lcc_hprd")
+test(4, "lcc_human")
+test(4, "lcc_yeast")
 print()

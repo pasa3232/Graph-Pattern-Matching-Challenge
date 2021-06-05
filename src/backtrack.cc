@@ -16,7 +16,7 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     // ignore dag
     IgnoreDAG igdag;
     igdag.initialize(data, query, cs);
-    igdag.perf_ELPSM(0);
+    igdag.perf_backtrack(0);
   }
   else if(MODE == 1) {
     // daf
@@ -39,14 +39,18 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     elpsm.DAG_display();
     elpsm.perf_ELPSM(0);
   }
-  else {
+  else if (MODE == 3) {
     // optimize-da
     OPDA opda;
     opda.initialize(data, query, cs);
     opda.find_root();
-    std::cerr << opda.get_root() << std::endl;
     opda.DAG_CREATE();
     opda.DAG_preprocess();
-    opda.perf_ELPSM(0);
+    opda.perf_backtrack(0);
+  }
+  else if(MODE == 4) {
+      IgnoreDAG2 igdag2;
+      igdag2.initialize(data, query, cs);
+      igdag2.perf_backtrack(0);
   }
 }

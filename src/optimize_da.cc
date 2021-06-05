@@ -129,7 +129,7 @@ void OPDA::DAG_preprocess(void) {
  * 
  * @return void
 */
-void OPDA::perf_ELPSM(size_t matched) {
+void OPDA::perf_backtrack(size_t matched) {
     if(matched == M.size()) {
         Backtrack::printMatch(M);
         return;
@@ -163,7 +163,7 @@ void OPDA::perf_ELPSM(size_t matched) {
             }
         }
         // cerr << "matched " << nxt << " with " << match << endl;
-        perf_ELPSM(matched + 1);
+        perf_backtrack(matched + 1);
         // restore everything
         decided.reset(nxt); visit[match] = 0;
         for(size_t i=0 ; i<lostcand.size() ; i++) {

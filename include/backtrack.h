@@ -13,6 +13,7 @@
 #include "elpsm.h"
 #include "ignore_dag.h"
 #include "optimize_da.h"
+#include "ignore_dag_2.h"
 
 #include <algorithm>
 #include <assert.h>
