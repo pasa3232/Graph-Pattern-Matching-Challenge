@@ -9,7 +9,7 @@
 #include "graph.h"
 
 #include <cstring>
-#include <time.h>
+#include <chrono>
 #include <unistd.h>
 #include <sys/wait.h>
 
@@ -50,16 +50,19 @@ int main(int argc, char* argv[]) {
 
   if(CHECK_MODE) {
     pid_t pid;
-    time_t start = time(NULL), end;
+    auto t1 = chrono::high_resolution_clock::now();
     if((pid = fork()) == 0){
       if(!freopen("../result.txt", "w", stdout)) return 1;
       backtrack.PrintAllMatches(data, query, candidate_set, MODE);
       return EXIT_SUCCESS;
     }
     wait(NULL);
-    end = time(NULL);
+    auto t2 = chrono::high_resolution_clock::now();
+    chrono::duration<int64_t,nano> elapsed = t2 - t1;
     cout<<"--------------------check result--------------------"<<"\n";
-    cout<<"running time: " << (end - start) << "(s)" << "\n";
+    cout<<"running time (Nanosec) : " << elapsed.count() << "\n";
+    cout<<"running time (Millisec): " << (double)elapsed.count()/1000000 << "\n";
+    cout<<"running time (Seconds) : " << (double)elapsed.count()/1000000000 << "\n";
     if(!freopen("../result.txt", "r", stdin)) return 1;
     size_t found = check(data, query, candidate_set);
     cout<<"found: "<<found<<"\n";
