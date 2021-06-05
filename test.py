@@ -13,11 +13,12 @@ def test(MODE, data):
     cases = ["n1", "n3", "n5", "n8", "s1", "s3", "s5", "s8"]
     for case in cases:
         print(f"{data}_{case}: ", end="")
-        p = subprocess.Popen([f"./build/main/program", f"data/{data}.igraph", f"query/{data}_{case}.igraph", f"candidate_set/{data}_{case}.cs", "-c", f"-{MODE}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen([f"./build/main/program", f"data/{data}.igraph", f"query/{data}_{case}.igraph", f"candidate_set/{data}_{case}.cs", "result.txt", f"-{MODE}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
+            st = time.time()
             out, err = p.communicate(timeout=60)
-            running_time = int(float(str(out).split("running time (Millisec): ")[1].split("\\n")[0]))
-            print(f"TIME: {running_time / 1000:<7}(s)  ", end = "")
+            end = time.time()
+            print(f"TIME: {round(end - st, 3):<7}(s)  ", end = "")
         except subprocess.TimeoutExpired:
             p.kill()
             print(f"TIME: {'(time out)':<10}  ", end = "")
