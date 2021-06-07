@@ -13,10 +13,10 @@ int Backtrack::print_cnt = 0;
 void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
                                 const CandidateSet &cs, int MODE) {
   if(MODE == 0) {
-    // ignore dag
-    IgnoreDAG igdag;
-    igdag.initialize(data, query, cs);
-    igdag.perf_backtrack(0);
+    // ignore dag2
+    IgnoreDAG2 igdag2;
+    igdag2.initialize(data, query, cs);
+    igdag2.perf_backtrack(0);
   }
   else if(MODE == 1) {
     // daf
@@ -49,8 +49,8 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     opda.perf_backtrack(0);
   }
   else if(MODE == 4) {
-      IgnoreDAG2 igdag2;
-      igdag2.initialize(data, query, cs);
-      igdag2.perf_backtrack(0);
+    IgnoreDAG igdag;
+    igdag.initialize(data, query, cs);
+    igdag.perf_backtrack(0);
   }
 }
