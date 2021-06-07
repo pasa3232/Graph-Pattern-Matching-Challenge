@@ -8,6 +8,12 @@ cmake ..
 make
 ./main/program <data graph file> <query graph file> <candidate set file>
 ```
+
+### Specify the output file.
+```
+./main/program <data graph file> <query graph file> <candidate set file> <output file>
+```
+
 ### check option -c
 ```
 ./main/program <data graph file> <query graph file> <candidate set file> -c
@@ -19,18 +25,14 @@ Result is saved in result.txt file and the checker log is printed to stdout.
 ./main/program <data graph file> <query graph file> <candidate set file> -1
 ./main/program <data graph file> <query graph file> <candidate set file> -2
 ./main/program <data graph file> <query graph file> <candidate set file> -3
-0 : ignore dag (default)
+./main/program <data graph file> <query graph file> <candidate set file> -4
+0 : ignore dag2 (default)
 1 : DAF
 2 : ELPSM
 3 : optimize_da
+4 : ignore dag
 ```
 Can use with -c option
-
-### Specify the output file.
-```
-./main/program <data graph file> <query graph file> <candidate set file> <output file>
-```
-
 ### executable program that outputs a candidate set
 ```
 ./executable/filter_vertices <data graph file> <query graph file>
