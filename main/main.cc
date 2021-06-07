@@ -95,6 +95,9 @@ void parse(int argc, char* argv[]) {
     if(strlen(argv[i]) == 2 && argv[i][0] == '-' && argv[i][1] == '3'){
       MODE = 3;
     }
+    if(strlen(argv[i]) == 2 && argv[i][0] == '-' && argv[i][1] == '4'){
+      MODE = 4;
+    }
   }
 }
 
