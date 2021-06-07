@@ -49,6 +49,7 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     opda.perf_backtrack(0);
   }
   else if(MODE == 4) {
+    // ignore dag
     IgnoreDAG igdag;
     igdag.initialize(data, query, cs);
     igdag.perf_backtrack(0);

@@ -19,15 +19,16 @@ static bool CHECK_MODE = false;
 
 /*
  * Default 0 
- * 0 : ignore dag
+ * 0 : ignore dag2
  * 1 : DAF
  * 2 : ELPSM
  * 3 : optimize_da
+ * 4 : ignore dag
  */
 static int MODE = 0;
 
-void parse(int argc, char* argv[]);
-size_t check(const Graph &data, const Graph &query, const CandidateSet &cs);
+static void parse(int argc, char* argv[]);
+static size_t check(const Graph &data, const Graph &query, const CandidateSet &cs);
 
 int main(int argc, char* argv[]) {
   if (argc < 4) {
@@ -48,17 +49,19 @@ int main(int argc, char* argv[]) {
 
   Backtrack backtrack;
 
-  if(CHECK_MODE) {
+  if(CHECK_MODE) {    /* CHECK MODE */
     pid_t pid;
     auto t1 = chrono::high_resolution_clock::now();
-    if((pid = fork()) == 0){
+    if((pid = fork()) == 0){    /* child process run */
       if(!freopen("result.txt", "w", stdout)) return 1;
       backtrack.PrintAllMatches(data, query, candidate_set, MODE);
       return EXIT_SUCCESS;
     }
-    wait(NULL);
+    wait(NULL);                 /* child sub process */
     auto t2 = chrono::high_resolution_clock::now();
-    chrono::duration<int64_t,nano> elapsed = t2 - t1;
+    chrono::duration<int64_t,nano> elapsed = t2 - t1;   /* running time */
+    
+    // print check result
     cout<<"--------------------check result--------------------"<<"\n";
     cout<<"running time (Nanosec) : " << elapsed.count() << "\n";
     cout<<"running time (Millisec): " << (double)elapsed.count()/1000000 << "\n";
@@ -75,7 +78,15 @@ int main(int argc, char* argv[]) {
   }
 }
 
-void parse(int argc, char* argv[]) {
+/*
+ * static void parse(int argc, char* argv[])
+ * 
+ * parse command line
+ *  <output file>
+ *  -c
+ *  -0 -1 -2 -3 -4
+ */
+static void parse(int argc, char* argv[]) {
   if(argc <= 4) return;
   if(argv[4][0] != '-')
     if(!freopen(argv[4], "w", stdout)) exit(0);
@@ -101,12 +112,18 @@ void parse(int argc, char* argv[]) {
   }
 }
 
-void error(string msg){
+static void error(string msg){
   cout<<msg<<"\n";
   exit(0);
 }
 
-size_t check(const Graph &data, const Graph &query, const CandidateSet &cs){
+/*
+ * size_t check(const Graph &data, const Graph &query, const CandidateSet &cs)
+ * 
+ * return number of matches that our algorithm found
+ * and check validation of matches
+ */
+static size_t check(const Graph &data, const Graph &query, const CandidateSet &cs){
   size_t n, cnt=0, fail=0;
   char tmp;
   if(scanf("%c %ld", &tmp, &n)!=2 || tmp != 't') error("invalid output");

@@ -26,7 +26,7 @@ def test(MODE, data):
     print()
 
     
-print("\n=================== ignore dag ====================")
+print("\n=================== ignore dag2 ====================")
 test(0, "lcc_hprd")
 test(0, "lcc_human")
 test(0, "lcc_yeast")
@@ -51,7 +51,7 @@ test(3, "lcc_yeast")
 print()
 
 
-print("\n=================== ignore dag2 ===================")
+print("\n=================== ignore dag ===================")
 test(4, "lcc_hprd")
 test(4, "lcc_human")
 test(4, "lcc_yeast")
