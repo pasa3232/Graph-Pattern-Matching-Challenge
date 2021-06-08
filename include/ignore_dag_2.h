@@ -11,6 +11,9 @@
 #include <map>
 #include <set>
 
+// the basics are same as IgnoreDAG, only minor implementation details are different
+// also, a small change in the matching order for tiebreaking : refer to ignore_dag_2.cc
+
 class IgnoreDAG2 {
  public:
   IgnoreDAG2();

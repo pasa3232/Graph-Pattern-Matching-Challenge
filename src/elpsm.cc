@@ -181,9 +181,6 @@ void ELPSM::perf_ELPSM(size_t matched) {
     }
     Vertex nxt = nxt_extend(matched);
     if(nxt == -1) return;
-    // cerr << matched << " " << nxt << endl;
-    // cerr << matched << " " << nxt << " " << cands[nxt].size() << endl;
-    // view_vertex(nxt);
     if(!largeleaf.test(nxt)) {
         set<Vertex>::iterator it1, it2;
         vector< vector<Vertex> > lostcand;
@@ -212,7 +209,6 @@ void ELPSM::perf_ELPSM(size_t matched) {
                     lostcand[loc].push_back(match);
                 }
             }
-            // cerr << "matched " << nxt << " with " << match << endl;
             perf_ELPSM(matched + 1);
             // restore everything
             decided.reset(nxt); visit[match] = 0;
@@ -225,7 +221,7 @@ void ELPSM::perf_ELPSM(size_t matched) {
         }
     }
     else {
-        // cands[nxt] vs merged[nxt].size()
+        // match leafs fast
         vector<Vertex> cand; cand.resize(cands[nxt].size());
         set<Vertex>::iterator it; size_t cnt = 0; decided.set(nxt);
         for(it = cands[nxt].begin() ; it != cands[nxt].end() ; it++) cand[cnt++] = (*it);
@@ -234,7 +230,7 @@ void ELPSM::perf_ELPSM(size_t matched) {
 }
 
 /**
- * @brief we are now matching merged leafs fast : note that we don't need to care about descendants here
+ * @brief we are now matching merged leafs fast : note that we don't need to care about descendants here since we are looking at leafs
  * 
  * @return void 
 */
@@ -244,7 +240,7 @@ void ELPSM::fast_leaf_match(size_t matched, Vertex whi, std::vector<Vertex> &can
         return;
     }
     for(size_t nxt = idx ; nxt < cand.size() ; nxt++) {
-        if(nxt >= cand.size() + 1 + this_matched - merged[whi].size()) break;
+        if(nxt >= cand.size() + 1 + this_matched - merged[whi].size()) break; // in this case, we can't backtrack further
         Vertex match = cand[nxt]; visit[match] = 1;
         M[merged[whi][this_matched]] = match;
         set<Vertex> loss; loss.clear();
@@ -267,24 +263,25 @@ void ELPSM::fast_leaf_match(size_t matched, Vertex whi, std::vector<Vertex> &can
  * @return Vertex
 */
 Vertex ELPSM::nxt_extend(size_t matched) {
+    // at start, pick root
     if(matched == 0) return root;
-    // now work...
+    // if not, get to work
     Vertex ret_1 = -1, ret_2 = -1; 
     size_t cursz_1 = 10000000, cursz_2 = 10000000;
     size_t num_qv = query->GetNumVertices();
     for(size_t i=0 ; i<num_qv ; i++) {
-        if(fake.test(i) || decided.test(i)) continue;
-        if((decided & pathex[i]) != pathex[i]) continue;
+        if(fake.test(i) || decided.test(i)) continue; // fake vertex or already decided
+        if((decided & pathex[i]) != pathex[i]) continue; // all parents have not been decided
         if(largeleaf.test(i) && cands[i].size() < merged[i].size()) return -1;
         if(largeleaf.test(i) && cands[i].size() == merged[i].size()) return i;
-        if(largeleaf.test(i)) {
+        if(largeleaf.test(i)) { // pick one with smallest cands size
                 if(cands[i].size() < cursz_2) {
                 cursz_2 = cands[i].size();
                 if(cands[i].size() == 0) return -1;
                 ret_2 = i;
             }
         }
-        else {
+        else { // pick one with smallest cands size
             if(cands[i].size() < cursz_1) {
                 cursz_1 = cands[i].size();
                 if(cands[i].size() == 0) return -1;
@@ -293,7 +290,9 @@ Vertex ELPSM::nxt_extend(size_t matched) {
         }
     }
     if(ret_1 == -1 && ret_2 == -1) return -1;
+    // if vertex that is not a merged leaf exist, return it
     if(ret_1 == -1) return ret_2;
+    // if we only have merged leaves, return it
     return ret_1;
 }
 
@@ -310,6 +309,7 @@ void ELPSM::print_matches(size_t cur) {
     if(!largeleaf.test(cur)) print_matches(cur + 1);
     else 
     {
+        // testing all sub-permutations
         size_t bunch = merged[cur].size();
         vector<Vertex> partial_match; partial_match.resize(bunch);
         for(size_t i=0 ; i<bunch ; i++) partial_match[i] = M[merged[cur][i]];
@@ -339,7 +339,6 @@ void ELPSM::view_vertex(Vertex cur) {
  * @brief debug : display the DAG merge
  * 
  * @return void
- * 
 */
 void ELPSM::DAG_display(void) {
     cerr << "root is at " << root << endl;

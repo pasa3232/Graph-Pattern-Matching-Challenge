@@ -32,7 +32,7 @@ class IgnoreDAG {
   std::vector< std::set<Vertex> > cands; /* candidate */
   std::vector< std::vector<Vertex> > query_edge; /* query edge */
 
-  std::vector< std::vector<Vertex> > cand_rev; /* candidate */
+  std::vector< std::vector<Vertex> > cand_rev; /* maps candidates to vertices that contain it */
   std::vector<int> visit;       /* Check visited while searching */
   std::bitset<200> decided;     /* decided dag vertices */
 

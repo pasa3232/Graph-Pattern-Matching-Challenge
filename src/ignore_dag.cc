@@ -93,7 +93,6 @@ void IgnoreDAG::perf_backtrack(size_t matched) {
                 lostcand[loc].push_back(match);
             }
         }
-        // cerr << "matched " << nxt << " with " << match << endl;
         perf_backtrack(matched + 1);
         // restore everything
         decided.reset(nxt); visit[match] = 0;
@@ -112,7 +111,7 @@ void IgnoreDAG::perf_backtrack(size_t matched) {
  * @return Vertex
 */
 Vertex IgnoreDAG::nxt_extend(size_t matched) {
-    // now work...
+    // take the undecided vertex with minimum candidate size, disregarding DAG
     Vertex ret = -1; 
     size_t cursz = 10000000;
     size_t num_qv = query->GetNumVertices();

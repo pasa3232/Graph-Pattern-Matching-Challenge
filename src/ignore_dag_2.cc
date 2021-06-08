@@ -71,6 +71,7 @@ void IgnoreDAG2::perf_backtrack(size_t matched) {
     if(nxt == -1) return;
     set<Vertex>::iterator it1, it2;
     vector< pair<Vertex, Vertex> > lostcand;
+    // here, we use lostcand as a vector of pairs, instead of initializing a ton of vectors
     for(it1 = cands[nxt].begin() ; it1 != cands[nxt].end() ; it1++) {
         Vertex match = (*it1); decided.set(nxt);
         M[nxt] = match; visit[match] = 1;
@@ -97,7 +98,6 @@ void IgnoreDAG2::perf_backtrack(size_t matched) {
                 lostcand.push_back(make_pair(loc, match));
             }
         }
-        // cerr << "matched " << nxt << " with " << match << endl;
         perf_backtrack(matched + 1);
         // restore everything
         decided.reset(nxt); visit[match] = 0;
@@ -118,7 +118,9 @@ void IgnoreDAG2::perf_backtrack(size_t matched) {
  * @return Vertex
 */
 Vertex IgnoreDAG2::nxt_extend(size_t matched) {
-    // now work...
+    // we still follow the IgnoreDAG framework
+    // one change : if there are multiple vertices with the same (minimum) number of candidate vertices
+    // we choose the vertex with the largest number of undecided neighbors
     Vertex ret = -1; 
     size_t cursz = 10000000;
     int cur_neighbor = 0;

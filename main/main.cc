@@ -142,6 +142,11 @@ static size_t check(const Graph &data, const Graph &query, const CandidateSet &c
             break;
         }
     }
+    for(size_t i = 1; i < n; i++){
+      for(size_t j = 0; j < i; j++){
+        if(v[i] == v[j]) error("Duplicate Vertex!");
+      }
+    }
      //cerr << isok << "\n";
     if(isok) cnt += 1;
     else fail += 1;

@@ -162,7 +162,6 @@ void OPDA::perf_backtrack(size_t matched) {
                 lostcand[loc].push_back(match);
             }
         }
-        // cerr << "matched " << nxt << " with " << match << endl;
         perf_backtrack(matched + 1);
         // restore everything
         decided.reset(nxt); visit[match] = 0;

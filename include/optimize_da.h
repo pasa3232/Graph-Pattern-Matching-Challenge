@@ -13,6 +13,10 @@
 
 
 // we assume size of query graph <= 200
+// this code is the "optimized" version of DA
+// while we believe this should perform similarly to DAF, apparently there are some differences
+// the primary reason this code was written was the additional optimization of ELPSM wasn't doing so well
+// we removed the ELPSM parts of the code from ELPSM (i.e. leaf merging and permutation backtracking) and ended up with this code
 
 class OPDA {
  public:
